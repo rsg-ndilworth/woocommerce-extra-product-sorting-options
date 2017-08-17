@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WooCommerce Extra Product Sorting Options
+ * Plugin Name: WooCommerce Extra Product Sorting Options (Gemviewer)
  * Plugin URI: http://www.skyverge.com/product/woocommerce-extra-product-sorting-options/
  * Description: Rename default sorting and optionally extra product sorting options.
  * Author: SkyVerge
@@ -79,8 +79,9 @@ class WC_Extra_Sorting_Options {
 			// add settings
 			add_filter( 'woocommerce_product_settings', array( $this, 'add_settings' ) );
 
+			// RSG. Aug 17 2017. Modified from original plugin. 
 			// add plugin links
-			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
+			// add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_plugin_links' ) );
 
 			// run every time
 			$this->install();
@@ -226,6 +227,10 @@ class WC_Extra_Sorting_Options {
 			'by_stock'      => __( 'Available Stock', 'woocommerce-extra-product-sorting-options' ),
 			'review_count'  => __( 'Review Count',    'woocommerce-extra-product-sorting-options' ),
 			'on_sale_first' => __( 'On-sale First',   'woocommerce-extra-product-sorting-options' ),
+			
+			// Added by RSG. Aug 17 2017
+			'carat_weight' => __( 'Carat: low to high',           'woocommerce-extra-product-sorting-options' ),
+			'reverse_carat_weight' => __( 'Carat: high to low',   'woocommerce-extra-product-sorting-options' ),
 		);
 
 		if ( ! WC_Extra_Sorting_Options::is_wc_gte_30() ) {
@@ -324,6 +329,15 @@ class WC_Extra_Sorting_Options {
 					}
 				break;
 
+				// Added by RSG. Aug 17 2017
+				case 'carat_weight':
+					$sortby['carat_weight'] = __( 'Sort by carat: low to high', 'woocommerce-extra-product-sorting-options' );
+				break;
+
+				case 'reverse_carat_weight':				
+					$sortby['reverse_carat_weight'] = __( 'Sort by carat: high to low', 'woocommerce-extra-product-sorting-options' );
+				break;
+
 			}
 		}
 
@@ -405,6 +419,20 @@ class WC_Extra_Sorting_Options {
 
 			break;
 
+			// Added by RSG. Aug 17 2017
+			case 'carat_weight':
+				
+				$sort_args['orderby']  = array( 'meta_value_num' => 'ASC', $fallback => $fallback_order );
+				$sort_args['meta_key'] = '_weight';
+
+			break;
+
+			case 'reverse_carat_weight':				
+			
+				$sort_args['orderby']  = array( 'meta_value_num' => 'DESC', $fallback => $fallback_order );
+				$sort_args['meta_key'] = '_weight';
+
+			break;
 		}
 
 		return $sort_args;
