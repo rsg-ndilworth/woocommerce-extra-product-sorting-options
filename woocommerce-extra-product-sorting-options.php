@@ -481,6 +481,10 @@ class WC_Extra_Sorting_Options {
 				'wc_reverse_alphabetical_product_sorting' => 'reverse_alpha',
 				'wc_on_sale_product_sorting'              => 'on_sale_first',
 				'wc_random_product_sorting'               => 'randomize',
+
+				// Added by RSG. Aug 17 2017
+				'wc_carat_weight_product_sorting'         => 'carat_weight',
+				'wc_reverse_carat_weight_product_sorting' => 'reverse_carat_weight',
 			);
 
 			$new_options = array();
